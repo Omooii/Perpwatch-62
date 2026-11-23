@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+    <title>PerpWatch</title>
+    <style>
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        /* ER brand dark-theme surface (#232323) + Neutral-200 text (#E5E5E5). */
+        background: #232323;
+        color: #E5E5E5;
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+        /* Kill WebView zoom + iOS auto-sizing + rubber-band scroll. */
+        touch-action: manipulation;
+        -webkit-text-size-adjust: 100%;
+        overscroll-behavior: none;
+      }
+      #app {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+      h1 { font-size: 20px; margin: 0 0 4px; }
+      .sub { color: #9a9a9a; margin: 0 0 16px; }
+      .card {
+        background: #2e2e2e;
+        border: 1px solid #3d3d3d;
+        border-radius: 10px;
+        padding: 14px;
+        margin: 12px 0;
+      }
+      .card h2 { font-size: 15px; margin: 0 0 8px; }
+      label { display: block; color: #9a9a9a; font-size: 12px; margin: 10px 0 4px; }
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        background: #1c1c1c;
+        color: #E5E5E5;
+        border: 1px solid #4a4a4a;
+        border-radius: 6px;
+        padding: 9px 10px;
+        font: 14px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      button {
+        background: #3f7d4e;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 9px 14px;
+        font-size: 14px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+      button.secondary { background: #4a4a4a; }
+      #status { white-space: pre-wrap; word-break: break-word; }
+      #positions { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+      .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; word-break: break-all; }
+      .note { color: #9a9a9a; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>PerpWatch</h1>
+      <p class="sub">Hyperliquid liquidation-risk monitor for Even G2. Read-only — it never trades, signs, or holds funds. It reports facts (prices, distances, funding), never advice.</p>
+
+      <div class="card">
+        <h2>Status</h2>
+        <div id="status">Starting…</div>
+        <button id="refresh-btn" class="secondary" type="button">Refresh now</button>
+        <button id="reload-btn" class="secondary" type="button">Reload app</button>
+      </div>
+
+      <div class="card">
+        <h2>Watched positions</h2>
+        <div id="positions">No data yet.</div>
+      </div>
+
+      <div class="card">
+        <h2>Watched address</h2>
+        <p class="note">Any Hyperliquid address works — account data is public. The default is a public leaderboard wallet used for the demo.</p>
+        <div class="mono">Now watching: <span id="addr-current">…</span></div>
+        <label for="addr-input">Hyperliquid address (0x…)</label>
+        <input id="addr-input" type="text" inputmode="text" autocomplete="off" spellcheck="false" />
+        <button id="addr-save" type="button">Watch this address</button>
+      </div>
+
+      <div class="card">
+        <h2>Alert threshold</h2>
+        <p class="note">Warn when any position's distance to liquidation falls below this percent.</p>
+        <label for="threshold-input">Threshold (%)</label>
+        <input id="threshold-input" type="number" min="1" max="50" step="1" />
+        <button id="threshold-save" type="button">Save threshold</button>
+      </div>
+
+      <div class="card">
+        <h2>Telegram alerts</h2>
+        <p class="note">Create a bot with @BotFather, paste its token here, and PerpWatch sends the same liquidation warnings to your Telegram. The token is stored only on this device — it is never sent anywhere except api.telegram.org, and never committed to the app.</p>
+        <div id="tg-status" class="note">No bot token saved.</div>
+        <label for="tg-token-input">Bot token</label>
+        <input id="tg-token-input" type="password" autocomplete="off" spellcheck="false" />
+        <button id="tg-save" type="button">Save bot token</button>
+        <label for="tg-chat-input">Telegram chat id (optional — or use Link chat)</label>
+        <input id="tg-chat-input" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="e.g. 2062309328" />
+        <button id="tg-chat-save" type="button">Save chat id</button>
+        <button id="tg-link" class="secondary" type="button">Link chat (tap Start on the bot first)</button>
+        <button id="tg-test" class="secondary" type="button">Send test alert</button>
+        <div id="tg-chat-status" class="note" style="margin-top:8px;">No chat linked.</div>
+      </div>
+
+      <div class="card">
+        <h2>Active alerts</h2>
+        <div id="alerts">No positions are below the alert threshold.</div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
