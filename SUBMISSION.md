@@ -53,8 +53,8 @@ TypeScript + Vite, Even Hub SDK 0.0.16, Hyperliquid public Info API (`metaAndAss
 
 ## Links
 
-- Repo: _(Tatang creates the public repo, then this tree is pushed)_
-- Demo video: _(upload `demo/demo-video.mp4` to YouTube, paste the link here)_
+- Repo: https://github.com/Omooii/Perpwatch-62
+- Demo video: https://youtu.be/VQGLBMEkRKs
 - Packaged app: `perpwatch-0.1.0.ehpk` (45 KB, in the repo root after packing)
 
 ## Feature requests for the Even Hub platform (5)
